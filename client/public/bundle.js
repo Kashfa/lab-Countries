@@ -76,9 +76,42 @@
   !*** ./client/src/app.js ***!
   \***************************/
 /*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("\nconst CountriesData = __webpack_require__(/*! ./models/countries_data.js */ \"./client/src/models/countries_data.js\");\nconst CountriesView = __webpack_require__(/*! ./views/countries_view.js */ \"./client/src/views/countries_view.js\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n\n  const countrySelect = document.querySelector('#country-select');\n\n  const countriesData = new CountriesData();\n  const countriesView = new CountriesView(countrySelect);\n\n  countriesData.getData((data) => {\n    // console.dir(data);\n\n    countriesView.renderCountriesSelect(data);\n\n  });\n\n});\n\n\n//# sourceURL=webpack:///./client/src/app.js?");
+
+/***/ }),
+
+/***/ "./client/src/models/countries_data.js":
+/*!*********************************************!*\
+  !*** ./client/src/models/countries_data.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Request = __webpack_require__(/*! ../services/request.js */ \"./client/src/services/request.js\")\n\nconst CountriesData = function () {\n  this.url = 'https://restcountries.eu/rest/v2/all';\n\n}\n\nCountriesData.prototype.getData = function (onComplete){\n  const request = new Request(this.url);\n  request.get((data) => {\n   // console.log(data);\n   this.data = data;\n   onComplete(data);\n });\n\n};\n\nmodule.exports = CountriesData;\n\n\n//# sourceURL=webpack:///./client/src/models/countries_data.js?");
+
+/***/ }),
+
+/***/ "./client/src/services/request.js":
+/*!****************************************!*\
+  !*** ./client/src/services/request.js ***!
+  \****************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./client/src/app.js?");
+eval("const Request = function (url) {\n  this.url = url;\n\n};\n\n\nRequest.prototype.get = function(onApiRequestComplete) {\n  const request = new XMLHttpRequest();\n  request.open('GET', this.url);\n  request.addEventListener('load', function () {\n    if(this.status !== 200) {\n      return;\n    }\n\n    const responseBody = JSON.parse(this.responseText);\n    onApiRequestComplete(responseBody);\n  });\n  request.send();\n\n};\n\nmodule.exports = Request;\n\n\n//# sourceURL=webpack:///./client/src/services/request.js?");
+
+/***/ }),
+
+/***/ "./client/src/views/countries_view.js":
+/*!********************************************!*\
+  !*** ./client/src/views/countries_view.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const CountriesView = function (countriesSelect) {\n  this.countriesSelect = countriesSelect;\n\n}\nCountriesView.prototype.renderCountriesSelect = function (countriesData) {\ncountriesData.forEach((country, index) => {\n  const option = document.createElement('option');\n  option.textContent = country.name;\n  this.countriesSelect.appendChild(option);\n});\n}\n\nmodule.exports = CountriesView;\n\n\n//# sourceURL=webpack:///./client/src/views/countries_view.js?");
 
 /***/ })
 
